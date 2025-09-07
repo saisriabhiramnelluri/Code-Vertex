@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeVertex - AI Code Translator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="logo-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <span class="brand-text">CodeVertex</span>
+                <div class="beta-badge">AI</div>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+                    <div class="theme-icon">
+                        <i class="fas fa-sun sun-icon"></i>
+                        <i class="fas fa-moon moon-icon"></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    <span class="type-block block-1">Transform Code Instantly</span>
+                </h1>
+
+                <p class="hero-subtitle">AI-powered code translation between 25+ programming languages</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">25+</span>
+                        <span class="stat-label">Languages</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">AI</span>
+                        <span class="stat-label">Powered</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">∞</span>
+                        <span class="stat-label">Possibilities</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Code Translator -->
+        <section class="translator-section">
+            <div class="translator-card">
+                <div class="card-header">
+                    <h2>Code Translator</h2>
+                    <div class="progress-indicator">
+                        <div class="progress-step active" data-step="1">1</div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step" data-step="2">2</div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step" data-step="3">3</div>
+                    </div>
+                </div>
+
+                <div class="translator-workspace">
+                    <!-- Source Panel -->
+                    <div class="code-panel source-panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i class="fas fa-code"></i>
+                                <span>Source Code</span>
+                            </div>
+                            <div class="language-selector">
+                                <div class="custom-select" id="source-select">
+                                    <div class="select-trigger">
+                                        <span class="select-text">Select Language</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="select-dropdown">
+                                        <div class="search-box">
+                                            <i class="fas fa-search"></i>
+                                            <input type="text" id="source-search" placeholder="Search languages...">
+                                        </div>
+                                        <div class="options-list" id="source-options">
+                                            {% for lang in languages %}
+                                            <div class="option" data-value="{{ lang }}">
+                                                <i class="lang-icon fab fa-{{ lang.lower() }}"></i>
+                                                <span>{{ lang }}</span>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="code-editor">
+                            <div class="editor-toolbar">
+                                <div class="editor-tabs">
+                                    <div class="tab active">
+                                        <i class="fas fa-file-code"></i>
+                                        <span>main.py</span>
+                                    </div>
+                                </div>
+                                <div class="editor-actions">
+                                    <button class="action-btn" title="Clear">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button class="action-btn" title="Format">
+                                        <i class="fas fa-magic"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="code-area">
+                                <div class="line-numbers"></div>
+                                <textarea id="source-code" placeholder=" "></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Center Controls -->
+                    <div class="center-controls">
+                        <div class="control-panel">
+                            <button class="swap-btn" id="swap-btn" title="Swap languages">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <button class="translate-btn" id="translate-btn">
+                                <div class="btn-content">
+                                    <div class="btn-icon">
+                                        <i class="fas fa-magic"></i>
+                                    </div>
+                                    <span class="btn-text">Translate</span>
+                                </div>
+                                <div class="btn-loader">
+                                    <div class="loader-spinner"></div>
+                                </div>
+                            </button>
+                            <div class="ai-indicator">
+                                <div class="ai-pulse"></div>
+                                <span>AI Ready</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Target Panel -->
+                    <div class="code-panel target-panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i class="fas fa-code-branch"></i>
+                                <span>Translated Code</span>
+                            </div>
+                            <div class="language-selector">
+                                <div class="custom-select" id="target-select">
+                                    <div class="select-trigger">
+                                        <span class="select-text">Select Language</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="select-dropdown">
+                                        <div class="search-box">
+                                            <i class="fas fa-search"></i>
+                                            <input type="text" id="target-search" placeholder="Search languages...">
+                                        </div>
+                                        <div class="options-list" id="target-options">
+                                            {% for lang in languages %}
+                                            <div class="option" data-value="{{ lang }}">
+                                                <i class="lang-icon fab fa-{{ lang.lower() }}"></i>
+                                                <span>{{ lang }}</span>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="code-editor">
+                            <div class="editor-toolbar">
+                                <div class="editor-tabs">
+                                    <div class="tab active">
+                                        <i class="fas fa-file-code"></i>
+                                        <span>output.js</span>
+                                    </div>
+                                </div>
+                                <div class="editor-actions">
+                                    <button class="action-btn" id="copy-btn" title="Copy">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button class="action-btn" title="Download">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="code-area">
+                                <div class="line-numbers"></div>
+                                <textarea id="target-code" readonly placeholder="// Translated code will appear here..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status Toast -->
+        <div class="toast-container" id="toast-container"></div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+</html>
